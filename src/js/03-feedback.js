@@ -4,22 +4,29 @@ const formEl = document.querySelector('.feedback-form');
 
 let valueForm = {};
 
-// відслідковування заповнення полів і запис в сховище якщо швидко писати текст невстигне відслідкуватись
-formEl.addEventListener('input', throttle((event) => {
-  event.preventDefault();
-  const {
-    elements: { email, message },
-  } = event.currentTarget;
-  valueForm.email = email.value;
-  valueForm.message = message.value;
+// функція оновлення даних
+function updateStorage() {
   localStorage.setItem('feedback-form-state', JSON.stringify(valueForm));
-}, 500));
+}
+
+
+// відслідковування заповнення полів і запис в сховище якщо швидко писати текст невстигне відслідкуватись
+formEl.addEventListener('input',(event) => {
+  event.preventDefault();
+  valueForm.email = event.currentTarget.email.value;
+  valueForm.message = event.currentTarget.message.value;
+});
 
 //  чому цей метод спрацьовує тільки після додавання попередніх даних, і перестає працювати після перезавантаження Цей метод не працює, коли сторінка відкривається вперше або якщо локальне сховище браузера порожнє. При першому відкритті сторінки метод JSON.parse(localStorage.getItem('feedback-form-state')) повертає null, оскільки у сховищі немає збережених значень форми. Отже, спроба отримати властивість message та email з null призведе до помилки. 
 // function updateForm() {
 //   formEl.elements.message.value = JSON.parse(localStorage.getItem('feedback-form-state')).message ||'';
 //   formEl.elements.email.value = JSON.parse(localStorage.getItem('feedback-form-state')).email;
 // }
+
+// оновлювати сховище значень не частіше, ніж раз на 0.5 секунд
+ const throttledUpdateStorage = throttle(updateStorage, 50);
+
+formEl.addEventListener('input', throttledUpdateStorage);
 
 // Функція оновлення форми зі значень зі сховища
 updateForm();
