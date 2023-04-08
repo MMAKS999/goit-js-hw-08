@@ -3,7 +3,6 @@ import Player from '@vimeo/player';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import {throttle} from 'lodash';
 
-
 const iframe = document.querySelector('#vimeo-player');
 const player = new Player('vimeo-player');
 
