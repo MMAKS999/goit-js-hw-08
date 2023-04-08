@@ -24,7 +24,7 @@ formEl.addEventListener('input',(event) => {
 // }
 
 // оновлювати сховище значень не частіше, ніж раз на 0.5 секунд
- const throttledUpdateStorage = throttle(updateStorage, 50);
+ const throttledUpdateStorage = throttle(updateStorage, 500);
 
 formEl.addEventListener('input', throttledUpdateStorage);
 
