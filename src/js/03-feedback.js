@@ -2,31 +2,24 @@ import {throttle} from 'lodash';
 
 const formEl = document.querySelector('.feedback-form');
 
-let valueForm = {};
-
 // функція оновлення даних
-function updateStorage() {
-  localStorage.setItem('feedback-form-state', JSON.stringify(valueForm));
-}
 
 
-// відслідковування заповнення полів і запис в сховище якщо швидко писати текст невстигне відслідкуватись
-formEl.addEventListener('input',(event) => {
-  event.preventDefault();
-  valueForm.email = event.currentTarget.email.value;
-  valueForm.message = event.currentTarget.message.value;
-});
+
+formEl.addEventListener('input', throttle((event) => {
+    event.preventDefault();
+    const valueForm = {
+        email: event.currentTarget.email.value,
+        message: event.currentTarget.message.value,
+    }
+    localStorage.setItem('feedback-form-state', JSON.stringify(valueForm))
+}), 500);
 
 //  чому цей метод спрацьовує тільки після додавання попередніх даних, і перестає працювати після перезавантаження Цей метод не працює, коли сторінка відкривається вперше або якщо локальне сховище браузера порожнє. При першому відкритті сторінки метод JSON.parse(localStorage.getItem('feedback-form-state')) повертає null, оскільки у сховищі немає збережених значень форми. Отже, спроба отримати властивість message та email з null призведе до помилки. 
 // function updateForm() {
 //   formEl.elements.message.value = JSON.parse(localStorage.getItem('feedback-form-state')).message ||'';
 //   formEl.elements.email.value = JSON.parse(localStorage.getItem('feedback-form-state')).email;
 // }
-
-// оновлювати сховище значень не частіше, ніж раз на 0.5 секунд
- const throttledUpdateStorage = throttle(updateStorage, 500);
-
-formEl.addEventListener('input', throttledUpdateStorage);
 
 // Функція оновлення форми зі значень зі сховища
 updateForm();
@@ -49,6 +42,7 @@ function updateForm() {
 //  Функція очищення форми і сховища після сабміту
 function submitForm(event) {
   event.preventDefault();
+  const valueForm = JSON.parse(localStorage.gatltem('feedback-form-state'));
   console.log(valueForm);
   localStorage.removeItem('feedback-form-state');
   formEl.reset();
