@@ -4,15 +4,18 @@ const formEl = document.querySelector('.feedback-form');
 
 // функція оновлення даних
 
-formEl.addEventListener('input', throttle((event) => {
-  event.preventDefault();
-  const valueForm = {
-    email: event.currentTarget.email.value,
-    message: event.currentTarget.message.value,
-  };
-  console.log(valueForm);
-  localStorage.setItem('feedback-form-state', JSON.stringify(valueForm));
-}), 500);
+formEl.addEventListener(
+  'input',
+    throttle(event => {
+     event.preventDefault();
+        const valueForm = {
+          email: formEl.elements.email.value,
+          message: formEl.elements.message.value,
+      };
+      console.log(valueForm);
+    localStorage.setItem('feedback-form-state', JSON.stringify(valueForm));
+  }, 1000)
+);
 
 // Функція оновлення форми зі значень зі сховища
 
