@@ -12,7 +12,7 @@ formEl.addEventListener(
           email: formEl.elements.email.value,
           message: formEl.elements.message.value,
       };
-      console.log(valueForm);
+      // console.log(valueForm);
     localStorage.setItem('feedback-form-state', JSON.stringify(valueForm));
   }, 1000)
 );
@@ -40,7 +40,7 @@ updateForm();
 function submitForm(event) {
   event.preventDefault();
   const valueForm = JSON.parse(localStorage.getItem('feedback-form-state'));
-  // console.log(valueForm);
+  console.log(valueForm);
   localStorage.removeItem('feedback-form-state');
   formEl.reset();
 }
