@@ -5,12 +5,13 @@ const formEl = document.querySelector('.feedback-form');
 // функція оновлення даних
 
 formEl.addEventListener('input', throttle((event) => {
-    event.preventDefault();
-    const valueForm = {
-        email: event.currentTarget.email.value,
-        message: event.currentTarget.message.value,
-    }
-    localStorage.setItem('feedback-form-state', JSON.stringify(valueForm));
+  event.preventDefault();
+  const valueForm = {
+    email: event.currentTarget.email.value,
+    message: event.currentTarget.message.value,
+  };
+  console.log(valueForm);
+  localStorage.setItem('feedback-form-state', JSON.stringify(valueForm));
 }), 500);
 
 // Функція оновлення форми зі значень зі сховища
@@ -36,9 +37,9 @@ updateForm();
 function submitForm(event) {
   event.preventDefault();
   const valueForm = JSON.parse(localStorage.getItem('feedback-form-state'));
-  console.log(valueForm);
+  // console.log(valueForm);
   localStorage.removeItem('feedback-form-state');
   formEl.reset();
 }
 
-formEl.addEventListener('submit', (submitForm));
+formEl.addEventListener('submit', submitForm);
